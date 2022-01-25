@@ -19,9 +19,9 @@ const employees = [
   
   spacer('findEmployeeByName Moe')
   // given a name and array of employees, return employee
-  const findEmployeeByName = (employee, arr) => {
+  const findEmployeeByName = (employeeName, arr) => {
     const filteredArr = arr.filter(obj => {
-        return obj.name === employee
+        return obj.name === employeeName
     })
     return filteredArr[0]
   }
@@ -30,8 +30,27 @@ const employees = [
   
   spacer('findManagerFor Shep Jr.')
   //given an employee and a list of employees, return the employee who is the manager
-  const findManagerFor = () => {
-      
+  const findManagerFor = (employee, arr) => {
+    //determine manager ID # for employee
+    const foundEmployee = findEmployeeByName(employee, arr);
+    console.log('here', foundEmployee);
+    const empManagerId = foundEmployee.managerId;
+    
+    console.log(foundEmployee)
+    //loop through objects and get obj with matching id #
+
+    /* 
+    return arr.filter(obj => {
+        const keys = Object.keys(obj)
+
+         for (let key in obj) {
+             if (obj.key === foundEmployee.managerId) {
+             return obj
+              }
+         }
+     })
+     */
+
   }
   console.log(findManagerFor(findEmployeeByName('shep Jr.', employees), employees));//{ id: 4, name: 'shep', managerId: 2 }
   spacer('')
