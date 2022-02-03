@@ -1,5 +1,6 @@
 <html>
     <head>
+      <!-- <script> defer </script> -->
         <script>
             const employees = [
     { id: 1, name: 'moe'},
@@ -34,10 +35,8 @@
   spacer('findManagerFor Shep Jr.')
   //given an employee and a list of employees, return the employee who is the manager
   const findManagerFor = (employee, arr) => {
-    //determine manager ID # for employee
-    //console.log('here', foundEmployee);
+  
     const empManagerId = employee.managerId;
-        //loop through objects and get obj with matching id #
     
     // return arr.filter(emp => {
 
@@ -59,17 +58,15 @@
   //given an employee and a list of employees, return the employees who report to the same manager
 
   const findCoworkersFor = (employee, arr) => {
-    console.log('emp', employee)
     const manager = employee.managerId
-    console.log('manager', manager)
 
     const coworkers = []
 
     for (let i = 0; i < arr.length; i++) {
         const currEmployee = arr[i]
 
-        if (currEmployee.managerId === manager) {
-            return arr.push(currEmployee)
+        if (currEmployee.managerId === manager && currEmployee !== employee) {
+            coworkers.push(currEmployee)
         }
     }
     return coworkers
@@ -85,11 +82,29 @@
   
   spacer('findManagementChain for moe')
   //given an employee and a list of employees, return a the management chain for that employee. The management chain starts from the employee with no manager with the passed in employees manager 
+  const findManagementChainForEmployee = (employee, empArr) => {
+    let manager = employee.managerId
+    console.log("manager", manager)
+    let managementChain = []
+
+    if (manager.managerId === undefined) {
+      return managementChain
+    }
+    else {
+      managementChain.push(manager)
+      console.log("chain", managementChain)
+      employee = manager
+      console.log("employee", employee)
+    }
+  }
+  
   console.log(findManagementChainForEmployee(findEmployeeByName('moe', employees), employees));//[  ]
   spacer('');
   
   spacer('findManagementChain for shep Jr.')
-  console.log(findManagementChainForEmployee(findEmployeeByName('shep Jr.', employees), employees));/*
+  
+  console.log(findManagementChainForEmployee(findEmployeeByName('shep Jr.', employees), employees));
+  /*
   [ { id: 1, name: 'moe' },
     { id: 2, name: 'larry', managerId: 1 },
     { id: 4, name: 'shep', managerId: 2 }]
@@ -98,8 +113,36 @@
   
   
   spacer('generateManagementTree')
+
   //given a list of employees, generate a tree like structure for the employees, starting with the employee who has no manager. Each employee will have a reports property which is an array of the employees who report directly to them.
-  console.log(JSON.stringify(generateManagementTree(employees), null, 2));
+    const generateManagementTree = (employeeArr) => {
+      const result = {};
+      let boss = {};
+      //With filter(returns an array, return the obj @ 0 index) let boss = employeeArr.filter(emp => if (emp.managerId === undefined))
+      for(const emp of employeeArr) {
+        if (!emp.managerId) {
+          boss = emp;
+          break;
+        }
+      }
+
+      console.log('function call', findMinions(boss, employeeArr));
+      
+      // boss.reports = [];
+      // const minions = employeeArr.filter(emp => {
+      //   return emp.ManagerId = boss.id;
+      // })
+      // boss.reports.push(minions)
+
+      return result
+    }  
+
+    const findMinions = (manager, empArr) => {
+      const minions = empArr.filter(emp => emp.managerId === boss.id);
+    }
+  
+
+  //console.log(JSON.stringify(generateManagementTree(employees), null, 2));
   /*
   {
     "id": 1,
